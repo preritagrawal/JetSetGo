@@ -1,6 +1,10 @@
 import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
+  container: {
+    padding: 20,
+    paddingTop: 0,
+  },
   flightItemContainer: {
     backgroundColor: '#F5F5DC',
     borderRadius: 10,
@@ -15,7 +19,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
     borderWidth: 1,
-    borderColor: '#CCCCCC', 
+    borderColor: '#CCCCCC',
   },
   infoContainer: {
     flexDirection: 'row',
@@ -28,7 +32,7 @@ const styles = StyleSheet.create({
   },
   infoText: {
     flex: 1,
-    color: '#9C27B0', 
+    color: '#9C27B0',
   },
 });
 

@@ -77,7 +77,7 @@ const FlightSearch = () => {
       {loading ? (
         <Text>Loading...</Text>
       ) : (
-        <View style={{padding:20}}>
+        <View style={styles.container}>
         <FlatList
           data={filteredFlights}
           renderItem={renderFlightItem}
