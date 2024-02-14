@@ -11,7 +11,6 @@ const FlightSorter = ({sortBy, onSortChange}) => {
         onValueChange={itemValue => onSortChange(itemValue)}>
         <Picker.Item label="Sort by" value={null} />
         <Picker.Item label="Price" value="price" />
-        {/* Add more sorting options if needed */}
       </Picker>
     </View>
   );

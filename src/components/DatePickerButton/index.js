@@ -12,10 +12,10 @@ const DatePickerButton = ({ label, value, onChange, showPicker, setShowPicker,bu
         onPress={() => setShowPicker(true)}
         underlayColor="#DDDDDD">
         <View style={styles.datePickerContainer}>
-          <Text style={styles.buttonText}>{label}</Text>
-          <Text style={styles.buttonText}>
+        <Text style={styles.buttonText}>
             {value ? value.toLocaleDateString() : 'Select'}
           </Text>
+          <Text style={styles.buttonText}>{label}</Text>
         </View>
       </TouchableHighlight>
       {showPicker && (

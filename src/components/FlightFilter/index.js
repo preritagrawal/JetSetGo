@@ -11,6 +11,8 @@ const FlightFilters = ({flights, onFilterApply}) => {
   const [selectedAirline, setSelectedAirline] = useState(null);
   const [selectedStop, setSelectedStop] = useState('');
   const [sortBy, setSortBy] = useState(null);
+  const [departureDate, setDepartureTime] = useState(null);
+  const [arrivalDate, setArrivalTime] = useState(null);
 
   const [fromOptions, toOptions, airlineOptions, stopOptions] = useMemo(() => {
     const fromOptions = flights
@@ -29,7 +31,7 @@ const FlightFilters = ({flights, onFilterApply}) => {
   }, [flights]);
 
   const applyFilter = () => {
-    let filteredData = flights;
+    let filteredData = [...flights];
     if (selectedAirline) {
       filteredData = filteredData.filter(item =>
         item.displayData.airlines.some(
@@ -52,22 +54,34 @@ const FlightFilters = ({flights, onFilterApply}) => {
         flight => flight.displayData.stopInfo === selectedStop,
       );
     }
+    if (sortBy === 'price') {
+      filteredData.sort((a, b) => a.fare - b.fare);
+    }
+    if(arrivalDate && departureDate){
+      filteredData = filteredData.filter(
+        flight =>
+          new Date(flight.displayData.source.depTime) >= departureDate &&
+          new Date(flight.displayData.destination.arrTime) <= arrivalDate,
+      );
+    }
     onFilterApply(filteredData);
   };
+
+  console.log(flights,'before');
 
   const clearFilter = () => {
     setFrom(null);
     setTo(null);
+    setSortBy(null);
+    setSelectedAirline(null);
+    setSelectedStop(null);
     onFilterApply(flights);
+    onArrivalChange(null);
+    onDepartureChange(null);
   };
 
   const handleSortChange = sortOption => {
     setSortBy(sortOption);
-    let sortedFlights = [...flights];
-    if (sortOption === 'price') {
-      sortedFlights.sort((a, b) => a.fare - b.fare);
-    }
-    onFilterApply(sortedFlights);
   };
 
   const renderCustomPicker = (
@@ -99,20 +113,27 @@ const FlightFilters = ({flights, onFilterApply}) => {
     );
   };
 
+  const onArrivalChange=(data)=>{
+    setArrivalTime(data)
+  }
+
+  const onDepartureChange=(data)=>{
+    setDepartureTime(data);
+  }
+
   return (
     <View
-      style={{
-        margin: 16,
-        borderRadius: 8,
-        backgroundColor: 'white',
-        padding: 16,
-      }}>
+      style={styles.container}>
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
         {renderCustomPicker(from, setFrom, fromOptions, 'From', true)}
         {renderCustomPicker(to, setTo, toOptions, 'To', true)}
       </View>
       <FlightSearchDepartureArrival
         flights={flights}
+        departureDate={departureDate}
+        arrivalDate={arrivalDate}
+        onArrivalChange={onArrivalChange}
+        onDepartureChange={onDepartureChange}
         onFilterApply={onFilterApply}
       />
       {renderCustomPicker(

@@ -1,46 +1,31 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Alert} from 'react-native';
 import DatePickerButton from '../DatePickerButton';
 import styles from './styles';
 
-const FlightSearchDepartureArrival = ({flights, onFilterApply}) => {
-  const [departureTime, setDepartureTime] = useState(new Date());
-  const [arrivalTime, setArrivalTime] = useState(new Date());
+const FlightSearchDepartureArrival = ({flights, onFilterApply,departureDate,arrivalDate,onDepartureChange,onArrivalChange}) => {
   const [showDeparturePicker, setShowDeparturePicker] = useState(false);
   const [showArrivalPicker, setShowArrivalPicker] = useState(false);
 
   const handleDepartureChange = (event, selectedDate) => {
     setShowDeparturePicker(false);
     if (selectedDate) {
-      setDepartureTime(selectedDate);
+      onDepartureChange(selectedDate);
     }
   };
 
   const handleArrivalChange = (event, selectedDate) => {
     setShowArrivalPicker(false);
     if (selectedDate) {
-      setArrivalTime(selectedDate);
+      onArrivalChange(selectedDate);
     }
-  };
-
-  const handleSearch = () => {
-    if (!departureTime || !arrivalTime) {
-      Alert.alert('Error', 'Please enter both departure and arrival dates.');
-      return;
-    }
-    const filtered = flights.filter(
-      flight =>
-        new Date(flight.displayData.source.depTime) >= departureTime &&
-        new Date(flight.displayData.destination.arrTime) <= arrivalTime,
-    );
-    onFilterApply(filtered);
   };
 
   return (
     <View style={styles.container}>
       <DatePickerButton
         label="Departure"
-        value={departureTime}
+        value={departureDate}
         onChange={handleDepartureChange}
         showPicker={showDeparturePicker}
         setShowPicker={setShowDeparturePicker}
@@ -53,7 +38,7 @@ const FlightSearchDepartureArrival = ({flights, onFilterApply}) => {
       />
       <DatePickerButton
         label="Arrival"
-        value={arrivalTime}
+        value={arrivalDate}
         onChange={handleArrivalChange}
         showPicker={showArrivalPicker}
         setShowPicker={setShowArrivalPicker}
