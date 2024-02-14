@@ -67,7 +67,6 @@ const FlightFilters = ({flights, onFilterApply}) => {
     onFilterApply(filteredData);
   };
 
-  console.log(flights,'before');
 
   const clearFilter = () => {
     setFrom(null);
